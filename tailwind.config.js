@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const {nextui} = require("@nextui-org/react");
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}","./public/index.html",],
   theme: {
     extend: {},
   },
