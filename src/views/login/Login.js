@@ -27,12 +27,12 @@ const Login = () => {
 
   return <div className="login-wrap bg-white w-full h-full bg-no-repeat flex items-center">
     <img className="bg block w-[49%] h-full object-cover" src={bg} alt="" />
-    <div className="form-wrap flex flex-1 justify-center h-full pt-[7.5rem] pb-[6.25rem]">
+    <div className="form-wrap flex flex-1 justify-center h-full pt-[120px] pb-[100px]">
       <form className="flex flex-col items-center w-full">
-        <h1 className="text-[5rem] text-[#773E15] text-center">{title}</h1>
-        <img className="w-[14.38rem] mt-[1.25rem]" src={splitImg} alt="" />
+        <h1 className="text-[80px] text-[#773E15] text-center">{title}</h1>
+        <img className="w-[230px] mt-[20px]" src={splitImg} alt="" />
 
-        <Input className="w-[38.5rem] text-[1.88rem] mt-[6.93rem] h-[5.81rem] input" isClearable placeholder="请输入用户名" />
+        <Input className="w-[616px] text-[30px] mt-[111px] h-[93px] border-b-3 border-b-[rgba(119,62,21,0.41)]" isClearable placeholder="请输入用户名" />
       </form>
     </div>
   </div>
