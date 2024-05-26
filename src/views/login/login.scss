@@ -1,4 +1,15 @@
 .login-wrap {
   background-position: left center;
   flex: 1;
+  .min-h-10 {
+    height: 100%;
+    min-height: auto;
+  }
+  div[data-slot="input-wrapper"]{
+    background-color: transparent;
+    box-shadow: none;
+  }
+  input {
+    font-size: 1.875rem!important;
+  }
 }
