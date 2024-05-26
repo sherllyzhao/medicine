@@ -319,6 +319,7 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        '@': paths.appSrc,
       },
       plugins: [
         // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -381,7 +382,9 @@ module.exports = function (webpackEnv) {
                 {
                   loader: require.resolve('@svgr/webpack'),
                   options: {
-                    prettier: false,
+                    prettier: {
+                      "singleQuote": true
+                    },
                     svgo: false,
                     svgoConfig: {
                       plugins: [{ removeViewBox: false }],

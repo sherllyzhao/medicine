@@ -9,6 +9,7 @@ import {persistor, store} from "./store";
 import { PersistGate } from 'redux-persist/es/integration/react';
 import {RouterProvider} from "react-router-dom";
 import {routes} from "./routes";
+import '@/utils/w_rem.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
