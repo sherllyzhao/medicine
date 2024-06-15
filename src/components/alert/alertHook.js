@@ -5,19 +5,18 @@ import Alert from "./Alert";
 
 const useAlert = props => {
   const {title, content} = props;
-  const {isOpen, onOpen} = useDisclosure();
+  const {isOpen, onOpen, onClose} = useDisclosure();
 
   const show = () => {
     onOpen();
   }
 
-  const close = () => {
-    console.log(isOpen)
-  }
-
   useEffect(() => {
+    const close = () => {
+      onClose();
+    }
     console.log('[ title, content ] >', title, content)
-    directiveRender(<Alert title={title} content={content} isOpen={isOpen} onClose={close} />)
+    return directiveRender(<Alert title={title} content={content} isOpen={isOpen} onClose={close} />)
   }, [title, content, isOpen])
 
   useEffect(() => {
