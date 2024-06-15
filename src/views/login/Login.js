@@ -2,7 +2,6 @@ import './login.scss';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import {Input, Button, Link} from "@nextui-org/react";
-import Alert from '../../components/alert/Alert';
 import useAlert from '../../components/alert/alertHook';
 
 
@@ -50,17 +49,30 @@ const Login = () => {
     });
   }
 
-  const alert = useAlert({
-    title: '提示',
-    content: '123'
-  })
+  const alert = useAlert()
   const validate = () => {
     if(!form.username){
-      alert.show({
+      return alert.show({
         title: '提示',
-        content: '123'
+        content: '请输入用户名'
       });
-      return false;
+    }else if(!form.password){
+      return alert.show({
+        title: '提示',
+        content: '请输入密码'
+      })
+    }else if(title === '注册'){
+      if(!form.password2){
+        return alert.show({
+          title: '提示',
+          content: '请再次输入密码'
+        })
+      }else if(form.password !== form.password2){
+        return alert.show({
+          title: '提示',
+          content: '两次输入的密码不一致'
+        })
+      }
     }
     if(pathname === 'login'){
       return form.username && form.password;
