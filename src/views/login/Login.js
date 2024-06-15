@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import {Input, Button, Link} from "@nextui-org/react";
 import Alert from '../../components/alert/Alert';
+import useAlert from '../../components/alert/alertHook';
 
 
 const Login = () => {
@@ -49,9 +50,13 @@ const Login = () => {
     });
   }
 
+  const alert = useAlert({
+    title: '提示',
+    content: '123'
+  })
   const validate = () => {
     if(!form.username){
-      Alert({
+      alert.show({
         title: '提示',
         content: '123'
       });

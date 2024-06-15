@@ -8,22 +8,30 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import directiveRender from "../directiveRender";
+import { useEffect } from "react";
 
 const SelfModel = (props) => {
-  const { title, content, isOpen } = props;
+  const { title, content, isOpen, onClose } = props;
+  const {onOpen, onOpenChange} = useDisclosure();
+
+  console.log('[ onClose ] >', onClose)
+
+  const close = () => {
+    alert(1)
+  }
 
   return (
     <Modal isOpen={isOpen}>
       <ModalContent>
-        {(onClose) => (
+        {(close) => (
           <>
             <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
             <ModalBody>{content}</ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
+              <Button color="danger" variant="light" onPress={close}>
                 取消
               </Button>
-              <Button color="primary" onPress={onClose}>
+              <Button color="primary" onPress={close}>
                 确定
               </Button>
             </ModalFooter>
@@ -34,15 +42,4 @@ const SelfModel = (props) => {
   );
 };
 
-export default function Alert (props) {
-  const { title, content } = props;
-  const { onOpen, isOpen } = useDisclosure();
-
-  const show = () => {
-    onOpen();
-  };
-
-  return directiveRender(
-    <SelfModel title={title} content={content} show={show} isOpen={isOpen} />
-  );
-};
+export default SelfModel;
