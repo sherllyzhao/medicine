@@ -6,11 +6,17 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
+import {useEffect} from "react";
 
 const SelfModel = (props) => {
   const { title, content, isOpen, onClose } = props;
 
-  console.log('[ onClose ] >', onClose)
+  useEffect(() => {
+    if(isOpen){
+      let closeBtn = document.querySelector('button[aria-label="Close"]');
+      closeBtn.addEventListener('click', onClose);
+    }
+  }, [isOpen, onClose])
 
   return (
     <Modal isOpen={isOpen}>

@@ -6,7 +6,9 @@ export default function DirectiveRender(reactEle) {
   const root = createRoot(container);
   root.render(reactEle);
   return function destroy() {
-    root.unmount();
-    container.remove();
+    setTimeout(() => {
+      root.unmount();
+      container.remove();
+    })
   };
 }
