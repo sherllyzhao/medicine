@@ -1,5 +1,6 @@
 import {createBrowserRouter, Link} from "react-router-dom";
 import Login from "../views/login/Login";
+import Layout from "../layout/Layout";
 
 export const routes = createBrowserRouter([
   {
@@ -12,11 +13,7 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <div>
-        <h1>Hello World</h1>
-        <Link to="about">About Us</Link>
-      </div>
+    element: (<Layout childEle={<div>home</div>} />
     ),
   },
   {

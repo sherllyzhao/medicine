@@ -23,10 +23,6 @@ const useAlert = () => {
     return directiveRender(<Alert title={title} content={content} isOpen={isOpen} onClose={close} />)
   }, [title, content, isOpen, onClose])
 
-  useEffect(() => {
-    console.log('[ isOpen ] >', isOpen)
-  }, [isOpen])
-
   return {
     show
   }

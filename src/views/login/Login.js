@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import {Input, Button, Link} from "@nextui-org/react";
 import useAlert from '../../components/alert/alertHook';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -34,7 +35,7 @@ const Login = () => {
     '/login': {title: '注册', url: '/register'},
     '/register': {title: '登录', url: '/login'}
   };
- 
+
   // 表单
   const [form, setForm] = useState({
     username: '',
@@ -42,48 +43,56 @@ const Login = () => {
     password2: ''
   });
 
+  // 表单赋值
   const changeData = (field, value) => {
     setForm({
      ...form,
       [field]: value
     });
-  }
+  };
 
-  const alert = useAlert()
+  const alert = useAlert();
+
+  // 表单提交
   const validate = () => {
     if(!form.username){
-      return alert.show({
+      alert.show({
         title: '提示',
         content: '请输入用户名'
       });
+      return false;
     }else if(!form.password){
-      return alert.show({
+      alert.show({
         title: '提示',
         content: '请输入密码'
       })
-    }else if(title === '注册'){
+      return false;
+    }else if(pathname === 'register'){
       if(!form.password2){
-        return alert.show({
+        alert.show({
           title: '提示',
           content: '请再次输入密码'
         })
+        return false;
       }else if(form.password !== form.password2){
-        return alert.show({
+        alert.show({
           title: '提示',
           content: '两次输入的密码不一致'
         })
+        return false;
       }
     }
-    if(pathname === 'login'){
-      return form.username && form.password;
-    }else{
-      return form.username && form.password && form.password2 && form.password === form.password2;
-    }
-  }
+    return true;
+  };
 
+  const navigate = useNavigate();
+
+  // 提交并跳转
   const submit = () => {
-    validate();
-    console.log(form, 'form');
+    if(validate()){
+      console.log(form, 'form');
+      navigate('/');
+    }
   }
 
   return <div className="login-wrap bg-white w-full h-full bg-no-repeat flex">
@@ -106,7 +115,7 @@ const Login = () => {
         <Button color="primary" className="bg-[#773E15] rounded-none w-[616px] h-[80px] shrink-0 mt-[100px] text-[30px] tracking-widest" onClick={submit}>
           {title}
         </Button>
-        
+
         <Link href={other[pathname].url} underline="always" className="mt-[52px] text-[#859F22] text-[26px]">
           {other[pathname].title}
         </Link>
