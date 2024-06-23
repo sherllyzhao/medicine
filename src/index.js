@@ -9,6 +9,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import {RouterProvider} from "react-router-dom";
 import {routes} from "./routes";
 import './index.css';
+import './element-ui.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

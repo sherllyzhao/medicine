@@ -4,7 +4,8 @@ import { useLocation } from 'react-router';
 import {Input, Button, Link} from "@nextui-org/react";
 import useAlert from '../../components/alert/alertHook';
 import { useNavigate } from 'react-router-dom';
-
+import { registerApi } from '../../api/user';
+import Message from '../../utils/message';
 
 const Login = () => {
   const bg = require('@/assets/images/login-bg.png');
@@ -58,7 +59,10 @@ const Login = () => {
     if(!form.username){
       alert.show({
         title: '提示',
-        content: '请输入用户名'
+        content: '请输入用户名',
+        btn2Callback: () => {
+            console.log(666)
+        }
       });
       return false;
     }else if(!form.password){
@@ -87,11 +91,21 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const message = new Message();
+
   // 提交并跳转
   const submit = () => {
     if(validate()){
-      console.log(form, 'form');
-      navigate('/');
+      registerApi(form).then(res => {
+        if(res.code === 200){
+          message.setOption({
+            message: res.msg || "登录成功",
+            type: "success",
+            duration: 2 * 1000,
+          });
+          navigate('/');
+        }
+      })
     }
   }
 
@@ -107,9 +121,9 @@ const Login = () => {
         <div className={`flex flex-col justify-center items-center flex-1 mt-[70px] gap-y-[${gap}px]`}>
           <Input isRequired className="w-[616px] h-[93px] border-b-3 border-b-[rgba(119,62,21,0.41)]" isClearable placeholder="请输入用户名" value={form.username} onChange={e => {changeData('username', e.target.value)}} />
 
-          <Input isRequired className="w-[616px] text-[#222] h-[93px] border-b-3 border-b-[rgba(119,62,21,0.41)]" isClearable placeholder="请输入密码" value={form.password} onChange={e => {changeData('password', e.target.value)}}  />
+          <Input type="password" isRequired className="w-[616px] text-[#222] h-[93px] border-b-3 border-b-[rgba(119,62,21,0.41)]" isClearable placeholder="请输入密码" value={form.password} onChange={e => {changeData('password', e.target.value)}}  />
 
-          {title === '注册' && <Input isRequired className="w-[616px] text-[#222] h-[93px] border-b-3 border-b-[rgba(119,62,21,0.41)]" isClearable placeholder="请再次输入密码" value={form.password2} onChange={e => {changeData('password2', e.target.value)}}  />}
+          {title === '注册' && <Input type="password" isRequired className="w-[616px] text-[#222] h-[93px] border-b-3 border-b-[rgba(119,62,21,0.41)]" isClearable placeholder="请再次输入密码" value={form.password2} onChange={e => {changeData('password2', e.target.value)}}  />}
         </div>
 
         <Button color="primary" className="bg-[#773E15] rounded-none w-[616px] h-[80px] shrink-0 mt-[100px] text-[30px] tracking-widest" onClick={submit}>
