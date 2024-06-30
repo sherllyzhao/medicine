@@ -3,9 +3,9 @@ import axios from "axios";
 import { store } from "../store";
 import Message from "./message";
 import { useNavigate } from "react-router-dom";
+// import {resetToken} from "../store/action";
 
 const message = new Message();
-// import {resetToken} from "../store/action";
 
 // create an axios instance
 const service = axios.create({
@@ -51,7 +51,6 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 200) {
-        console.log(message.setOption)
       message.setOption({
         message: res.msg || "Error",
         type: "error",
@@ -71,7 +70,11 @@ service.interceptors.response.use(
             navigate('/login');
         }, 2000)
       }
-      return Promise.reject(new Error(res.message || "Error"));
+      return {
+        code: res.code,
+        msg: res.msg,
+        data: null,
+      }
     } else {
       return res;
     }

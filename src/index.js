@@ -1,29 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {NextUIProvider} from "@nextui-org/react";
-import { Provider } from 'react-redux';
-import {persistor, store} from "./store";
-import { PersistGate } from 'redux-persist/es/integration/react';
-import {RouterProvider} from "react-router-dom";
-import {routes} from "./routes";
-import './index.css';
-import './element-ui.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/es/integration/react";
+import { RouterProvider } from "react-router-dom";
+import { routes } from "./routes";
+import "./index.css";
+import "./element-ui.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 store.subscribe(() => {
   console.log(store.getState());
-})
+});
 
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <RouterProvider router={routes}>
-        <NextUIProvider>
-          <App />
-        </NextUIProvider>
+        <App />
       </RouterProvider>
     </PersistGate>
   </Provider>

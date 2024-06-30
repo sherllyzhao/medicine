@@ -14,5 +14,13 @@
   input {
     font-size: 22px;
     line-height: 1.25;
+    border-radius: 0;
+  }
+  .ant-btn-link{
+    text-decoration: underline;
+  }
+  :where(.css-dev-only-do-not-override-m4timi).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover{
+    background: #773E15;
+    color: #fff;
   }
 }
