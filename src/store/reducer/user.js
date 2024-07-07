@@ -1,9 +1,9 @@
 const user = (state = {}, action) => {
     switch (action.type) {
-        case 'SET_TOKEN':
+        case 'SET_USERINFO':
             return {
                 ...state,
-                ...action.token
+                ...action
             }
         default:
             return state

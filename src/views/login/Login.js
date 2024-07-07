@@ -4,6 +4,7 @@ import { useLocation } from "react-router";
 import { Input, Button, Form, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { registerApi } from "../../api/user";
+import { store } from "../../store";
 
 const Login = () => {
   const bg = require("@/assets/images/login-bg.png");
@@ -48,19 +49,23 @@ const Login = () => {
   };
 
   // 表单提交
-
   const navigate = useNavigate();
 
   const [messageApi] = message.useMessage();
 
   // 提交并跳转
-  const submit = () => {
-    registerApi(form).then((res) => {
-      if (res.code === 200) {
-        messageApi.success(res.msg || other[pathname].title + "成功");
-        navigate("/");
-      }
-    });
+  const submit = async () => {
+    let res;
+    if(pathname === "/register"){
+      res = await registerApi(form);
+    }else{
+      res = await loginApi(form);
+    }    
+    if (res.code === 200 && res.data) {
+      store.dispatch({ type: "SET_USERINFO", data: res.data });
+      messageApi.success(res.msg || other[pathname].title + "成功");
+      navigate("/");
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -114,6 +119,26 @@ const Login = () => {
                 required: true,
                 message: "请输入密码!",
               },
+              () => ({
+                validator(_, value) {
+                  if(value.trim() === ''){
+                    return Promise.reject(new Error('请输入密码!'));
+                  }
+                  // 密码不包括汉字
+                  if(/[\u4e00-\u9fa5]/g.test(value)){
+                    return Promise.reject(new Error('密码不能包含汉字!'));
+                  }
+                  // 密码长度为6-16位
+                  if(value.length < 6 || value.length > 16){
+                    return Promise.reject(new Error('密码长度为6-16位!'));
+                  }
+                  // 密码必须包含数字、字母、符号中的至少两种
+                  if(!/[0-9]/.test(value) || !/[a-zA-Z]/.test(value) || !/[!@#$%^&*]/.test(value)){
+                    return Promise.reject(new Error('密码必须包含数字、字母、符号中的至少两种!'));
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
           >
             <Input
@@ -140,9 +165,9 @@ const Login = () => {
                     if(value.trim() === ''){
                       return Promise.reject(new Error('请输入密码!'));
                     }
-                    // 密码不包括汉字
-                    if(/[\u4e00-\u9fa5]/g.test(value)){
-                      return Promise.reject(new Error('密码不能包含汉字!'));
+                    // 与第一次输入的密码不一致
+                    if(value !== form.password){
+                      return Promise.reject(new Error('2次输入的密码不一致!'));
                     }
                     return Promise.resolve();
                   },
