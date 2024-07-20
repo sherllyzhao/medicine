@@ -7,3 +7,11 @@ export function registerApi (data){
     data
   })
 }
+
+export function loginApi (data){
+  return service({
+    url: '/api/user/login',
+    method: 'post',
+    data
+  })
+}

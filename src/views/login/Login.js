@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { Input, Button, Form, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { registerApi } from "../../api/user";
+import { loginApi, registerApi } from "../../api/user";
 import { store } from "../../store";
 
 const Login = () => {
-  const bg = require("@/assets/images/login-bg.png");
   const splitImg = require("@/assets/images/split.png");
 
   const [title, setTitle] = useState("");
@@ -74,8 +73,6 @@ const Login = () => {
 
   return (
     <div className="login-wrap bg-white w-full h-full bg-no-repeat flex">
-      <img className="bg block w-[49%] h-full object-cover" src={bg} alt="" />
-
       <div className="form-wrap flex flex-1 justify-center items-center h-full pt-[50px] pb-[50px] overflow-auto min-h-full">
         <Form
           name="basic"
@@ -88,9 +85,9 @@ const Login = () => {
           autoComplete="off"
           className="flex flex-col items-center w-full"
         >
-          <h1 className="text-[70px] text-[#773E15] text-center">{title}</h1>
+          <h1 className="text-[60px] text-[#773E15] text-center">{title}</h1>
 
-          <img className="w-[230px] h-[40px] mt-[20px]" src={splitImg} alt="" />
+          <img className="w-[200px] h-[30px] mt-[20px]" src={splitImg} alt="" />
 
           <Form.Item
             name="username"
@@ -103,7 +100,7 @@ const Login = () => {
             ]}
           >
             <Input
-              className="w-[616px] h-[93px]  border-t-0 border-l-0 border-r-0 border-b-[rgba(119,62,21,0.41)]"
+              className="w-[600px] h-[80px] border-t-0 border-l-0 border-r-0 border-b-[rgba(119,62,21,0.41)]"
               placeholder="请输入用户名"
               value={form.username}
               onChange={(e) => {
@@ -133,8 +130,8 @@ const Login = () => {
                     return Promise.reject(new Error('密码长度为6-16位!'));
                   }
                   // 密码必须包含数字、字母、符号中的至少两种
-                  if(!/[0-9]/.test(value) || !/[a-zA-Z]/.test(value) || !/[!@#$%^&*]/.test(value)){
-                    return Promise.reject(new Error('密码必须包含数字、字母、符号中的至少两种!'));
+                  if(!/[0-9]/.test(value) || !/[a-zA-Z]/.test(value)){
+                    return Promise.reject(new Error('密码必须包含数字、字母两种!'));
                   }
                   return Promise.resolve();
                 },
@@ -143,7 +140,7 @@ const Login = () => {
           >
             <Input
               type="password"
-              className="w-[616px] text-[#222] h-[93px] border-t-0 border-l-0 border-r-0 border-b-3 border-b-[rgba(119,62,21,0.41)]"
+              className="w-[600px] text-[#222] h-[80px] border-t-0 border-l-0 border-r-0 border-b-3 border-b-[rgba(119,62,21,0.41)]"
               placeholder="请输入密码"
               value={form.password}
               onChange={(e) => {
@@ -176,7 +173,7 @@ const Login = () => {
             >
               <Input
                 type="password"
-                className="w-[616px] text-[#222] h-[93px] border-t-0 border-l-0 border-r-0 border-b-3 border-b-[rgba(119,62,21,0.41)]"
+                className="w-[600px] text-[#222] h-[80px] border-t-0 border-l-0 border-r-0 border-b-3 border-b-[rgba(119,62,21,0.41)]"
                 placeholder="请再次输入密码"
                 value={form.password2}
                 dependencies={['password']}
@@ -204,7 +201,7 @@ const Login = () => {
           <Form.Item>
             <Button
               color="primary"
-              className="bg-[#773E15] rounded-none w-[616px] h-[80px] shrink-0 mt-[100px] text-[30px] tracking-widest text-[#fff] hover:bg-[#773E15] hover:text-[#fff]"
+              className="bg-[#773E15] rounded-none w-[600px] h-[80px] shrink-0 mt-[100px] text-[30px] tracking-widest text-[#fff] hover:bg-[#773E15] hover:text-[#fff]"
               onClick={submit}
             >
               {title}
