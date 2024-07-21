@@ -15,3 +15,11 @@ export function loginApi (data){
     data
   })
 }
+
+export function logoutApi (data){
+  return service({
+    url: '/api/user/logout',
+    method: 'post',
+    data: data
+  })
+}

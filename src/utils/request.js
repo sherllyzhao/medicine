@@ -54,6 +54,7 @@ service.interceptors.response.use(
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 401) {
+        const navigate = useNavigate();
         // to re-login
         message.setOption({
           message: res.msg || "Error",
@@ -61,7 +62,6 @@ service.interceptors.response.use(
           duration: 2 * 1000,
         });
         setTimeout(() => {
-            const navigate = useNavigate();
             navigate('/login');
         }, 2000)
       }
