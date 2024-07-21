@@ -8,6 +8,10 @@ import {
 } from "antd";
 import { UserOutlined, DownOutlined } from "@ant-design/icons";
 import { connect } from 'react-redux';
+import { Outlet, Link } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router';
+import { useEffect } from "react";
+
 const { Header, Content, Sider } = LayoutWrap;
  
 const mapStateToProps = (state) => ({
@@ -15,14 +19,22 @@ const mapStateToProps = (state) => ({
 });
 
 const Layout = (props) => {
-  const { childEle, userInfo } = props;
-  console.log('[ props ] >', userInfo);
+  const { userInfo } = props;
+  
+  const locationInfo = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(locationInfo.pathname === '/'){
+      navigate('/home');
+    }
+  }, [locationInfo.pathname])
+  
 
   const userNav = [
     {
       key: 'userInfo',
       label: (
-        <div>个人信息</div>
+        <Link to="/self">个人信息</Link>
       ),
     },
     {
@@ -32,6 +44,8 @@ const Layout = (props) => {
       ),
     },
   ];
+
+  const breadList = [{title: '首页', path: '/home'}];
 
   const menu = [];
 
@@ -100,10 +114,8 @@ const Layout = (props) => {
             style={{
               margin: '16px 0',
             }}
+            items={breadList}
           >
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb>
           <Content
             style={{
@@ -113,7 +125,7 @@ const Layout = (props) => {
               borderRadius: '20px',
             }}
           >
-            {childEle}
+            <Outlet />
           </Content>
         </LayoutWrap>
       </LayoutWrap>

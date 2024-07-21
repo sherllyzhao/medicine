@@ -13,8 +13,12 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/",
-    element: (<Layout childEle={<div>home</div>} />
-    ),
+    element: (<Layout />),
+    redirect: "/home",
+    children: [
+      { path: "home", element: <div>home</div> },
+      { path: "self", element: <div>self</div> },
+    ]
   },
   {
     path: "about",
