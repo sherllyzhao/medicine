@@ -24,22 +24,32 @@ const mapStateToProps = (state) => ({
 const Layout = (props) => {
   const { userInfo } = props;
 
-  const [breadList, setBreadList] = useState([{ title: "首页", path: "/home" }]);
+  const [breadList, setBreadList] = useState([
+    { title: "首页", path: "/home" },
+  ]);
 
   const [menu, setMenu] = useState([]);
   const [defaultSelectedKeys, setDefaultSelectedKeys] = useState(["home"]);
 
   const locationInfo = useLocation();
   const navigate = useNavigate();
+
+  const [cardTitle, setCardTitle] = useState("");
+
   useEffect(() => {
     if (locationInfo.pathname === "/") {
       navigate("/home");
     }
 
+    const flatMenu = [];
+    const showMenu = [];
     const handlerFormatterMenu = (list) => {
-      list.forEach(v => {
-        if(v.children && v.children.length) {
-          handlerFormatterMenu(v.children)
+      list.forEach((v) => {
+        if (v.children && v.children.length) {
+          v.children.forEach((val) => {
+            val.parent = v;
+          });
+          handlerFormatterMenu(v.children);
         }
         v.label = v.meta.title;
         v.key = v.path;
@@ -47,18 +57,50 @@ const Layout = (props) => {
         v.children = v.children;
         delete v.hasErrorBoundary;
         delete v.element;
-      })
-      return list;
-    }
+        flatMenu.push(v);
+        if (!v.hidden) {
+          showMenu.push(v);
+        }
+      });
+    };
 
     const routesList = routes.routes;
-    const menuList = routesList.find((item) => item.path === '/').children;
-    const showMenuList = JSON.parse(JSON.stringify(menuList.filter((item) => !item.hidden)));
-    const formatterMenuList = handlerFormatterMenu(showMenuList);
-    setMenu(formatterMenuList);
+    const menuList = routesList.find((item) => item.path === "/").children;
 
-    setDefaultSelectedKeys([locationInfo.pathname.split('/')[locationInfo.pathname.split('/').length - 1]]);
-    console.log('[ defaultSelectedKeys ] >', [locationInfo.pathname.split('/')[locationInfo.pathname.split('/').length - 1]])
+    handlerFormatterMenu(menuList);
+    setMenu(showMenu);
+
+    setDefaultSelectedKeys([
+      locationInfo.pathname.split("/")[
+        locationInfo.pathname.split("/").length - 1
+      ],
+    ]);
+
+    const nowRoute = flatMenu.find(
+      (item) => "/" + item.path === locationInfo.pathname
+    );
+
+    if(nowRoute){
+      setCardTitle(nowRoute.meta.title);
+      const parent = [nowRoute];
+      const getParent = (route) => {
+        if(route.parent){
+          parent.push(route.parent);
+          getParent(route.parent);
+        }
+      };
+      getParent(nowRoute);
+      if(parent.length){
+        const parentList = parent.map(v => {
+          return {
+            title: v.meta.title,
+            path: '/' + v.path
+          }
+        })
+        setBreadList(Array.from(new Set([...breadList, ...parentList])));
+      }
+      console.log('[ parent ] >', breadList)
+    }
   }, [locationInfo.pathname, navigate]);
 
   /**
@@ -71,6 +113,7 @@ const Layout = (props) => {
     }
   };
 
+  // 用户导航
   const userNav = [
     {
       key: "userInfo",
@@ -149,7 +192,7 @@ const Layout = (props) => {
               margin: "16px 0",
             }}
             items={breadList}
-          ></Breadcrumb>
+          />
           <Content
             style={{
               margin: 0,
@@ -158,9 +201,9 @@ const Layout = (props) => {
             }}
           >
             <Card
-              title="Default size card"
+              title={cardTitle}
               extra={<a href="#">More</a>}
-              style={{ width: 300 }}
+              style={{ width: "100%", height: "100%" }}
             >
               <Outlet />
             </Card>
