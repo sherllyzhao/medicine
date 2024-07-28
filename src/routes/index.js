@@ -15,7 +15,7 @@ export const routes = createBrowserRouter([
   {
     path: "/",
     element: (<Layout />),
-    redirect: "/home",
+    redirect: "home",
     meta: {
       title: '首页'
     },

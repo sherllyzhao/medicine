@@ -19,9 +19,7 @@ store.subscribe(() => {
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <RouterProvider router={routes}>
-        <App />
-      </RouterProvider>
+      <RouterProvider router={routes} />
     </PersistGate>
   </Provider>
 );
