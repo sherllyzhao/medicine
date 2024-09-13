@@ -101,7 +101,7 @@ const Layout = (props) => {
       }
       console.log('[ parent ] >', breadList)
     }
-  }, [locationInfo.pathname, navigate]);
+  }, [locationInfo.pathname, navigate, breadList]);
 
   /**
    * 退出登录
@@ -140,7 +140,7 @@ const Layout = (props) => {
         }}
       >
         <div className="flex items-center">
-          <img src={logo} className="w-[40px]" />
+          <img src={logo} className="w-[40px]" alt="" />
 
           <div className="text-white text-[18px] ml-[20px]">中医药系统</div>
         </div>
